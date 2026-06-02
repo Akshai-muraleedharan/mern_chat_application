@@ -44,3 +44,31 @@ export const signup = async (req, res, next) => {
         next(error)
     }
 }
+
+export const login = async (req, res, next) => {
+    try {
+
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ email: email })
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "Invalid Credential" })
+        }
+
+        const isPasswordCorrect = await bcryptjs.compare(password, user.password)
+
+        if (!isPasswordCorrect) {
+            return res.status(404).json({ success: false, message: "Invalid Credential" })
+        }
+
+        generateToken(user._id, res)
+
+        const { password: pass, ...rest } = user._doc
+
+        res.status(200).json({ success: true, message: "User Login Successfully", data: rest })
+
+    } catch (error) {
+        next(error)
+    }
+}

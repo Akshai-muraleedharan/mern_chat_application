@@ -1,2 +1,2 @@
 
-export { signup } from "./authController.js"
+export { signup, login } from "./authController.js"
