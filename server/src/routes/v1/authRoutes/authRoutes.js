@@ -11,7 +11,6 @@ authRouter.get("/auth", authVerify, checkAuth)
 
 
 authRouter.get("/test", authVerify, (req, res, next) => {
-    console.log(req.user)
     res.json()
 })
 
