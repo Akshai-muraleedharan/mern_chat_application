@@ -19,7 +19,14 @@ export const authVerify = async (req, res, next) => {
             return res.status(400).json({ success: false, message: "Unauthorized - Invalid Token" })
         }
 
-        req.user = decoded
+
+        const user = await User.findById(decoded.userId).select("-password")
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User Not Found" })
+        }
+
+        req.user = user
 
         next()
 

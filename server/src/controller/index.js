@@ -1,2 +1,2 @@
 
-export { signup, login, logout } from "./authController.js"
+export { signup, login, logout, checkAuth } from "./authController.js"

@@ -81,3 +81,15 @@ export const logout = async (req, res, next) => {
         next(error)
     }
 }
+
+export const checkAuth = async (req, res, next) => {
+    try {
+        const { fullName, email } = req.user
+
+        res.status(200).json({ success: true, message: "Auth successfullt", data: { fullName, email } })
+
+
+    } catch (error) {
+        next(error)
+    }
+}
