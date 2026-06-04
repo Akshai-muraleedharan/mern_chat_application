@@ -35,7 +35,7 @@ export const signup = async (req, res, next) => {
 
             await newUser.save()
 
-            const { password: pass, _id: id, ...rest } = newUser._doc
+            const { password: pass, ...rest } = newUser._doc
 
             res.status(201).json({ success: true, message: "Account Registered successfully", data: rest })
         } else {

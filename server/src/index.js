@@ -7,12 +7,17 @@ import { connectDB } from "./lib/db.js"
 import cookieParser from "cookie-parser"
 import { apiRouter } from "./routes/index.js"
 import { app, server } from "./lib/socket.js"
-
+import cors from "cors"
 
 
 app.use(express.json())
 app.use(cookieParser())
-
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true,
+    })
+);
 
 
 const port = validateENV("PORT")
