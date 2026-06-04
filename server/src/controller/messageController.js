@@ -1,5 +1,6 @@
 import { getReceiverSocketId, io } from "../lib/socket.js"
 import { Message } from "../model/message.model.js"
+import { User } from "../model/userModel.js"
 
 export const sendMessage = async (req, res, next) => {
     try {
@@ -42,6 +43,16 @@ export const getMessages = async (req, res, next) => {
 
         res.status(200).json({ success: true, message: "Data fetched successfully", data: messages })
 
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const getUsersForSideBar = async (req, res, next) => {
+    try {
+        const loggedInUserId = req.user._id
+        const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
+        res.status(200).json(filteredUsers);
     } catch (error) {
         next(error)
     }

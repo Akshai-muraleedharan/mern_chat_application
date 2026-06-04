@@ -35,7 +35,9 @@ export const signup = async (req, res, next) => {
 
             await newUser.save()
 
-            res.status(201).json({ success: true, message: "Account Registered successfully" })
+            const { password: pass, _id: id, ...rest } = newUser._doc
+
+            res.status(201).json({ success: true, message: "Account Registered successfully", data: rest })
         } else {
             return res.status(400).josn({ success: false, message: "Invalid user Data" })
         }
@@ -64,7 +66,7 @@ export const login = async (req, res, next) => {
 
         generateToken(user._id, res)
 
-        const { password: pass, ...rest } = user._doc
+        const { password: pass, _id: id, ...rest } = user._doc
 
         res.status(200).json({ success: true, message: "User Login Successfully", data: rest })
 
@@ -84,9 +86,9 @@ export const logout = async (req, res, next) => {
 
 export const checkAuth = async (req, res, next) => {
     try {
-        const { fullName, email } = req.user
+        const { fullName, email, _id } = req.user
 
-        res.status(200).json({ success: true, message: "Auth successfullt", data: { fullName, email } })
+        res.status(200).json({ success: true, message: "Auth successfullt", data: { fullName, email, _id } })
 
 
     } catch (error) {
